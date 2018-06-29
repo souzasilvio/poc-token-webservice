@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://mrv.com.br/ConsultaCRM" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://mrv.com.br/ConsultaCRM" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://mrv.com.br/ConsultaCRM">
+      <s:element name="ObterInformacaoBloco">
+        <s:complexType />
+      </s:element>
+      <s:element name="ObterInformacaoBlocoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ObterInformacaoBlocoResult" type="tns:ArrayOfBlocoInfoSAP" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBlocoInfoSAP">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BlocoInfoSAP" nillable="true" type="tns:BlocoInfoSAP" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BlocoInfoSAP">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Nome" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AuthHeader" type="tns:AuthHeader" />
+      <s:complexType name="AuthHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Token" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="ValidarUnidadeSAP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idUnidade" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidarUnidadeSAPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ValidarUnidadeSAPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarAgendamento">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="oportundiadeId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelarAgendamentoResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ObterInformacaoBlocoSoapIn">
+    <wsdl:part name="parameters" element="tns:ObterInformacaoBloco" />
+  </wsdl:message>
+  <wsdl:message name="ObterInformacaoBlocoSoapOut">
+    <wsdl:part name="parameters" element="tns:ObterInformacaoBlocoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ObterInformacaoBlocoAuthHeader">
+    <wsdl:part name="AuthHeader" element="tns:AuthHeader" />
+  </wsdl:message>
+  <wsdl:message name="ValidarUnidadeSAPSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidarUnidadeSAP" />
+  </wsdl:message>
+  <wsdl:message name="ValidarUnidadeSAPSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidarUnidadeSAPResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelarAgendamentoSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelarAgendamento" />
+  </wsdl:message>
+  <wsdl:message name="CancelarAgendamentoSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelarAgendamentoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ConsultaCRMSoap">
+    <wsdl:operation name="ObterInformacaoBloco">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Consultar Datas CRM</wsdl:documentation>
+      <wsdl:input message="tns:ObterInformacaoBlocoSoapIn" />
+      <wsdl:output message="tns:ObterInformacaoBlocoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUnidadeSAP">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Valida se unidade está correta no SAP para realização de venda.</wsdl:documentation>
+      <wsdl:input message="tns:ValidarUnidadeSAPSoapIn" />
+      <wsdl:output message="tns:ValidarUnidadeSAPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAgendamento">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancela Agendamento ao crédito Proposta de Analise de credito  </wsdl:documentation>
+      <wsdl:input message="tns:CancelarAgendamentoSoapIn" />
+      <wsdl:output message="tns:CancelarAgendamentoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ConsultaCRMSoap" type="tns:ConsultaCRMSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObterInformacaoBloco">
+      <soap:operation soapAction="http://mrv.com.br/ConsultaCRM/ObterInformacaoBloco" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ObterInformacaoBlocoAuthHeader" part="AuthHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUnidadeSAP">
+      <soap:operation soapAction="http://mrv.com.br/ConsultaCRM/ValidarUnidadeSAP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAgendamento">
+      <soap:operation soapAction="http://mrv.com.br/ConsultaCRM/CancelarAgendamento" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ConsultaCRMSoap12" type="tns:ConsultaCRMSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ObterInformacaoBloco">
+      <soap12:operation soapAction="http://mrv.com.br/ConsultaCRM/ObterInformacaoBloco" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ObterInformacaoBlocoAuthHeader" part="AuthHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUnidadeSAP">
+      <soap12:operation soapAction="http://mrv.com.br/ConsultaCRM/ValidarUnidadeSAP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelarAgendamento">
+      <soap12:operation soapAction="http://mrv.com.br/ConsultaCRM/CancelarAgendamento" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ConsultaCRM">
+    <wsdl:port name="ConsultaCRMSoap" binding="tns:ConsultaCRMSoap">
+      <soap:address location="https://localhost:44346/ConsultaCRM.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ConsultaCRMSoap12" binding="tns:ConsultaCRMSoap12">
+      <soap12:address location="https://localhost:44346/ConsultaCRM.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
